@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:urban_wiper/Constants/constants.dart';
 import 'package:urban_wiper/Widgets/fade_slide.dart';
 import 'package:urban_wiper/Widgets/scale_animation.dart';
@@ -292,6 +291,8 @@ class _HomePageState extends State<HomePage>
                 direction: getItemVisibility("slide-7", animationItems),
                 child: GestureDetector(
                   onTap: () {
+                    print("sumit");
+                    print(activePage);
                     // Show bottom sheet on click
                     showModalBottomSheet(
                       isScrollControlled: true,
@@ -304,7 +305,10 @@ class _HomePageState extends State<HomePage>
                       barrierColor: Colors.black.withOpacity(.8),
                       context: context,
                       builder: (_) {
-                        return const WashingPricesAndDetails();
+                        return WashingPricesAndDetails(
+                          carTypeImage: carTypes[activePage],
+                          carTypeName: carTypeName[activePage],
+                        );
                       },
                     );
                   },
