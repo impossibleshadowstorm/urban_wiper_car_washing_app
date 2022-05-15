@@ -63,3 +63,8 @@ var premiumPackageDetails = [
     "feature5": "1 Dashboard Polish",
   },
 ];
+
+var support = {
+  "phone": "+91 98989xxxxxx",
+  "email": "support@urbanwiper.com",
+};

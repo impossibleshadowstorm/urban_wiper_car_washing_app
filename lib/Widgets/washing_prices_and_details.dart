@@ -144,6 +144,7 @@ class _WashingPricesAndDetailsState extends State<WashingPricesAndDetails>
                             carTypeImg: widget.carTypeImage,
                             carTypeNm: widget.carTypeName,
                             package: 1,
+                            carTypeIndex: getCarIndex(widget.carTypeName),
                           ),
                         );
                       },
@@ -184,6 +185,18 @@ class _WashingPricesAndDetailsState extends State<WashingPricesAndDetails>
                   ),
                   Expanded(
                     child: GestureDetector(
+                      onTap: () async {
+                        await animationController.forward();
+                        animateTransition(
+                          context,
+                          WashingPackageDetails(
+                            carTypeImg: widget.carTypeImage,
+                            carTypeNm: widget.carTypeName,
+                            package: 2,
+                            carTypeIndex: getCarIndex(widget.carTypeName),
+                          ),
+                        );
+                      },
                       child: Column(
                         children: <Widget>[
                           Expanded(
@@ -254,5 +267,15 @@ class _WashingPricesAndDetailsState extends State<WashingPricesAndDetails>
         ],
       ),
     );
+  }
+
+  int getCarIndex(String carName) {
+    if (carName == "Hatchback") {
+      return 0;
+    } else if (carName == "Sedan") {
+      return 1;
+    } else {
+      return 2;
+    }
   }
 }

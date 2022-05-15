@@ -12,11 +12,13 @@ class WashingPackageDetails extends StatefulWidget {
   final String carTypeImg;
   final String carTypeNm;
   final int package;
+  final int carTypeIndex;
   const WashingPackageDetails({
     Key? key,
     required this.carTypeNm,
     required this.carTypeImg,
     required this.package,
+    required this.carTypeIndex,
   }) : super(key: key);
 
   @override
@@ -94,6 +96,8 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
     super.dispose();
   }
 
+  int selectedTab = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +111,7 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
+                flex: 4,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
@@ -180,14 +185,13 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
                         child: AnimatedSwitcher(
                           duration: const Duration(milliseconds: 500),
                           child: ScaleAnimation(
-                            key: ValueKey(colors[selectedIndex]["asset"]),
+                            // key: ValueKey(colors[selectedIndex]["asset"]),
                             duration:
                                 getSlideDuration("slide-3", animationItems),
                             child: Align(
                               alignment: Alignment.center,
                               child: Image.asset(
                                 widget.carTypeImg,
-                                // colors[selectedIndex]["asset"],
                               ),
                             ),
                             direction:
@@ -200,6 +204,7 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
                 ),
               ),
               Expanded(
+                flex: 5,
                 child: FadeSlide(
                   duration: getSlideDuration("slide-4", animationItems),
                   direction: getItemVisibility("slide-4", animationItems),
@@ -227,23 +232,50 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
                           child: Column(
                             children: <Widget>[
                               Row(
-                                children: [
-                                  _getTabItem("Inspire", true),
+                                children: <Widget>[
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedTab = 0;
+                                        });
+                                      },
+                                      child: selectedTab == 0
+                                          ? _getTabItem("Features", true)
+                                          : _getTabItem("Features", false),
+                                    ),
+                                  ),
                                   const SizedBox(width: 15.0),
-                                  _getTabItem("Inform", false),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedTab = 1;
+                                        });
+                                      },
+                                      child: selectedTab == 1
+                                          ? _getTabItem("About Car", true)
+                                          : _getTabItem("About Car", false),
+                                    ),
+                                  ),
                                   const SizedBox(width: 15.0),
-                                  _getTabItem("Technical Data", false),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedTab = 2;
+                                        });
+                                      },
+                                      child: selectedTab == 2
+                                          ? _getTabItem("Support", true)
+                                          : _getTabItem("Support", false),
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 25.0),
-                              Text(
-                                "Hello there, thank you for coming here, please dont forget to subscribe and like this video if you learnt something from it",
-                                style: TextStyle(
-                                  height: 1.5,
-                                  fontSize: 16.0,
-                                  color: Colors.black.withOpacity(.5),
-                                ),
-                              ),
+                              _getPackageDetails(
+                                  widget.package, widget.carTypeIndex),
                               const SizedBox(height: 15.0),
                               const Divider(),
                               const SizedBox(height: 15.0),
@@ -281,7 +313,7 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
                             ],
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           child: Row(
                             children: <Widget>[
                               Container(
@@ -310,13 +342,28 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
                                     onTap: () {},
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
-                                        vertical: 22.0,
+                                        vertical: 17.0,
                                       ),
-                                      child: const Text(
-                                        "Checkout",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
+                                      child: Center(
+                                        child: widget.package == 1
+                                            ? Text(
+                                                lightPackageDetails[widget
+                                                        .carTypeIndex]['price']
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                ),
+                                              )
+                                            : Text(
+                                                premiumPackageDetails[widget
+                                                        .carTypeIndex]['price']
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                ),
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -338,6 +385,104 @@ class _WashingPackageDetailsState extends State<WashingPackageDetails>
   }
 }
 
+Widget _getPackageDetails(int pkgNo, int index) {
+  if (pkgNo == 1) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          lightPackageDetails[index]['feature1'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          lightPackageDetails[index]['feature2'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          lightPackageDetails[index]['feature3'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          lightPackageDetails[index]['feature4'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          lightPackageDetails[index]['feature5'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+      ],
+    );
+  } else {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          premiumPackageDetails[index]['feature1'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          premiumPackageDetails[index]['feature2'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          premiumPackageDetails[index]['feature3'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          premiumPackageDetails[index]['feature4'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        Text(
+          premiumPackageDetails[index]['feature5'].toString(),
+          style: TextStyle(
+            height: 1.5,
+            fontSize: 16.0,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 Widget _getTabItem(String text, bool isActive) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,7 +492,7 @@ Widget _getTabItem(String text, bool isActive) {
         style: TextStyle(
           color:
               isActive ? const Color(0xFF333333) : Colors.black.withOpacity(.5),
-          fontSize: isActive ? 18.0 : 16.0,
+          fontSize: isActive ? 17.0 : 14.0,
           fontWeight: FontWeight.bold,
         ),
       ),
