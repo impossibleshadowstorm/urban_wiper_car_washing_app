@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:urban_wiper/Constants/constants.dart';
+import 'package:urban_wiper/Constants/details.dart';
 import 'package:urban_wiper/Widgets/fade_slide.dart';
 import 'package:urban_wiper/Widgets/scale_animation.dart';
 import 'package:urban_wiper/Widgets/washing_prices_and_details.dart';
@@ -13,18 +14,6 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
-
-List<String> carTypes = [
-  "assets/images/hatchback.png",
-  "assets/images/sedan.png",
-  "assets/images/xuvs.png",
-];
-
-List<String> carTypeName = [
-  "Hatchback",
-  "Sedan",
-  "XUVs & MUVs",
-];
 
 const Y_OFFSET = 60.0;
 
@@ -225,7 +214,7 @@ class _HomePageState extends State<HomePage>
                                       1.0 - (pageScrollValue - index).abs(),
                                     ),
                                     child: Image.asset(
-                                      carTypes[index],
+                                      carTypeImage[index],
                                     ),
                                   ),
                                 ),
@@ -265,7 +254,7 @@ class _HomePageState extends State<HomePage>
                       ),
                     );
                   },
-                  itemCount: carTypes.length,
+                  itemCount: carTypeImage.length,
                 ),
               ),
               FadeSlide(
@@ -291,8 +280,6 @@ class _HomePageState extends State<HomePage>
                 direction: getItemVisibility("slide-7", animationItems),
                 child: GestureDetector(
                   onTap: () {
-                    print("sumit");
-                    print(activePage);
                     // Show bottom sheet on click
                     showModalBottomSheet(
                       isScrollControlled: true,
@@ -306,7 +293,7 @@ class _HomePageState extends State<HomePage>
                       context: context,
                       builder: (_) {
                         return WashingPricesAndDetails(
-                          carTypeImage: carTypes[activePage],
+                          carTypeImage: carTypeImage[activePage],
                           carTypeName: carTypeName[activePage],
                         );
                       },
